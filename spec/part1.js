@@ -525,7 +525,7 @@
 
 
       it('should pass the second item of the array into the iterator first if a memo is not passed in', function() {
-debugger;
+
         var result = _.reduce([3, 2, 1], function(memo, item) {
           return memo - item;
         });

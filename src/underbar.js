@@ -186,18 +186,26 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    if (arguments.length < 3) {
+    if (Array.isArray(collection)) {
+      if (arguments.length < 3) {
+          
         accumulator = collection[0];
         for (var i = 1; i < collection.length; i++) {
           accumulator = iterator(accumulator, collection[i], collection);
         }
 
+      } else {
+        for (var i = 0; i < collection.length; i++) {
+          accumulator = iterator(accumulator, collection[i], collection);
+        }
+      }
     } else {
-      for (var i = 0; i < collection.length; i++) {
-        accumulator = iterator(accumulator, collection[i], collection);
+      
+      for (var key in collection) {
+        accumulator = iterator(accumulator, collection[key], collection);
       }
     }
-    
+
     return accumulator;
   };
 
@@ -217,11 +225,47 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(wasFound, item) {
+      if (!wasFound) {
+        return false;
+      }
+
+      if (!iterator) {
+        if (item) {
+          return true;
+        } else {
+          return false;
+        }
+
+      } else {
+        if (iterator(item)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    if (!iterator) {
+      iterator = function(item) {
+        return item;
+      }
+    }
+
+    return _.reduce(collection, function(wasFound, item) {
+      if (wasFound) {
+        return true;
+      }
+      if (iterator(item)) {
+        return true;
+      } else {
+        return false;
+      }
+    }, false);
     // TIP: There's a very clever way to re-use every() here.
   };
 
@@ -245,6 +289,13 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
