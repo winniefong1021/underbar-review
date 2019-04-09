@@ -189,12 +189,12 @@
     if (arguments.length < 3) {
         accumulator = collection[0];
         for (var i = 1; i < collection.length; i++) {
-          accumulator = iterator(accumulator, collection[i]);
+          accumulator = iterator(accumulator, collection[i], collection);
         }
 
     } else {
       for (var i = 0; i < collection.length; i++) {
-        accumulator = iterator(accumulator, collection[i]);
+        accumulator = iterator(accumulator, collection[i], collection);
       }
     }
     
