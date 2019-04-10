@@ -301,6 +301,15 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        if (obj[key] === undefined) {
+          obj[key] = arguments[i][key];
+        }
+      }
+    }
+    return obj;
+    
   };
 
 
@@ -344,6 +353,28 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    // var result = {};
+
+    // var args = 
+    
+    // return function() {
+    //   if () {
+    //     // if key exists in result
+    //     // return result[key]
+    //   }
+    //   // add argument and the result of func to result obj
+    //   // return func.apply(this, arguments);
+    // };
+    //var argumentsArray = arguments;
+    //var alreadyCalled = {};
+    //var result;
+
+    // TIP: We'll return a new function that delegates to the old one, but only
+    // if it hasn't been called before.
+    //return function() {
+     // for ()
+      // The new function always returns the originally computed result.
+      //return result;
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -353,6 +384,12 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments);
+    var passedArgs = args.slice(2);
+
+    setTimeout(function() {
+      func.apply(null, passedArgs);
+    }, wait);
   };
 
 
@@ -367,6 +404,7 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    
   };
 
 
