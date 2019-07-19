@@ -3,7 +3,6 @@
 
   var checkForNativeMethods = function(runUnderbarFunction) {
     it('should not use the native version of any underbar methods in its implementation', function() {
-      // These spies are set up in testSupport.js
       runUnderbarFunction();
       expect(Array.prototype.map.called).to.equal(false);
       expect(Array.prototype.indexOf.called).to.equal(false);
@@ -152,9 +151,9 @@
 
       it('should return a function callable twice in the first 200ms', function() {
         var fn = _.throttle(callback, 100);
-        fn(); // called
+        fn();
         setTimeout(fn, 50);
-        setTimeout(fn, 100); // called
+        setTimeout(fn, 100);
         setTimeout(fn, 150);
         setTimeout(fn, 199);
         clock.tick(200);
